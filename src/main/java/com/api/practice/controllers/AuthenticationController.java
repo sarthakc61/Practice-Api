@@ -6,6 +6,8 @@ import com.api.practice.dto.RefreshTokenRequest;
 import com.api.practice.entities.RefreshToken;
 import com.api.practice.services.RefreshTokenService;
 import com.api.practice.services.impl.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,21 @@ public class AuthenticationController {
     @Autowired
     private RefreshTokenService refreshTokenService;
 
+    @Operation(
+            description = "Post endpoint for authenticating users and generating jwt token and refresh token",
+            summary = "Authenticating user based on the database entry",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Internal Server error",
+                            responseCode = "500"
+                    )
+            }
+
+    )
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticateTokenAndGetToken(@RequestBody AuthRequest authRequest){
         doAuthenticate(authRequest.getUsername(), authRequest.getPassword());
@@ -61,6 +78,21 @@ public class AuthenticationController {
         }
     }
 
+    @Operation(
+            description = "Post endpoint for generating jwt token with the help of active refresh token",
+            summary = "Generate jwt and refresh token with the existing and active refresh token",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Internal Server error",
+                            responseCode = "500"
+                    )
+            }
+
+    )
     @PostMapping("/refreshToken")
     public AuthResponse genrateTokenUsingRefreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
         return refreshTokenService.findByToken(refreshTokenRequest.getRefreshToken())

@@ -4,6 +4,7 @@ import com.api.practice.dto.UserInfoDto;
 import com.api.practice.services.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Validated
+@Tag(name = "User Controller")
 public class UserInfoController {
 
     @Autowired
@@ -46,12 +48,42 @@ public class UserInfoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
 
+    @Operation(
+            description = "Get endpoint for fetching users ",
+            summary = "Fetching all users for authentication purpose",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Internal Server error",
+                            responseCode = "500"
+                    )
+            }
+
+    )
     @GetMapping(value = "/getAllUsers", produces = "application/json")
     public ResponseEntity<List<UserInfoDto>> getAllUsers(){
         List<UserInfoDto> allUsersDto = userInfoService.getAllUsers();
         return ResponseEntity.status(HttpStatus.OK).body(allUsersDto);
     }
 
+    @Operation(
+            description = "Get endpoint for fetching users",
+            summary = "Fetching existing user by id",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Internal Server error",
+                            responseCode = "500"
+                    )
+            }
+
+    )
     @GetMapping(value = "/getUserById/{userId}", produces = "application/json")
     public ResponseEntity<UserInfoDto> getUserById(@Min(value = 0, message = "Id must be greater than 0")
                                                        @PathVariable Integer userId){
@@ -59,6 +91,21 @@ public class UserInfoController {
         return ResponseEntity.status(HttpStatus.OK).body(userDto);
     }
 
+    @Operation(
+            description = "Update endpoint for updating existing user",
+            summary = "Updating existing user by id",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Internal Server error",
+                            responseCode = "500"
+                    )
+            }
+
+    )
     @PutMapping(value = "/updateUser/{userId}", consumes = "application/json" , produces = "application/json")
     public ResponseEntity<UserInfoDto> updateUserById(@Min(value = 0, message = "Id must be greater than 0")
                                                           @RequestBody UserInfoDto userInfoDto, Integer userId){
@@ -66,6 +113,21 @@ public class UserInfoController {
         return ResponseEntity.ok(userDto);
     }
 
+    @Operation(
+            description = "Delete endpoint for deleting user by id",
+            summary = "Deleting user if required",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Internal Server error",
+                            responseCode = "500"
+                    )
+            }
+
+    )
     @DeleteMapping(value = "/deleteUserById/{userId}", produces = "application/json")
     public ResponseEntity<String> deleteUserById(@Min(value = 0, message = "Id must be greater than 0")
                                                      @PathVariable Integer userId){
