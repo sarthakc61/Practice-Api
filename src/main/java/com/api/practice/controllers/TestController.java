@@ -21,7 +21,7 @@ public class TestController {
                             description = "Working fine"
                     ),
                     @ApiResponse(
-                            responseCode = "403",
+                            responseCode = "401",
                             description = "Unauthorized"
                     )
             }
