@@ -21,3 +21,4 @@ management:
           - beans
           - info
           - metrics
+          - health

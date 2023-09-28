@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class UserInfoController {
 
 
     @Operation(
-            description = "Post endpoint for adding users which can generate jwt tokens",
+            description = "Post endpoint for adding users which can generate jwt tokens can only be accessed by ROLE_ADMIN as role",
             summary = "Adding users for authentication purpose",
             responses = {
                     @ApiResponse(
@@ -42,6 +43,7 @@ public class UserInfoController {
             }
 
     )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(value = "/addUser", consumes = "application/json" , produces = "application/json")
     public ResponseEntity<UserInfoDto> addUser(@Valid @RequestBody UserInfoDto userInfoDto){
         UserInfoDto userDto = userInfoService.addUser(userInfoDto);
@@ -49,7 +51,7 @@ public class UserInfoController {
     }
 
     @Operation(
-            description = "Get endpoint for fetching users ",
+            description = "Get endpoint for fetching users can only be accessed by ROLE_ADMIN as role",
             summary = "Fetching all users for authentication purpose",
             responses = {
                     @ApiResponse(
@@ -63,6 +65,7 @@ public class UserInfoController {
             }
 
     )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/getAllUsers", produces = "application/json")
     public ResponseEntity<List<UserInfoDto>> getAllUsers(){
         List<UserInfoDto> allUsersDto = userInfoService.getAllUsers();
@@ -70,7 +73,7 @@ public class UserInfoController {
     }
 
     @Operation(
-            description = "Get endpoint for fetching users",
+            description = "Get endpoint for fetching users can only be accessed by ROLE_ADMIN as role",
             summary = "Fetching existing user by id",
             responses = {
                     @ApiResponse(
@@ -84,6 +87,7 @@ public class UserInfoController {
             }
 
     )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/getUserById/{userId}", produces = "application/json")
     public ResponseEntity<UserInfoDto> getUserById(@Min(value = 0, message = "Id must be greater than 0")
                                                        @PathVariable Integer userId){
@@ -92,7 +96,7 @@ public class UserInfoController {
     }
 
     @Operation(
-            description = "Update endpoint for updating existing user",
+            description = "Update endpoint for updating existing user can only be accessed by ROLE_ADMIN as role",
             summary = "Updating existing user by id",
             responses = {
                     @ApiResponse(
@@ -106,6 +110,7 @@ public class UserInfoController {
             }
 
     )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(value = "/updateUser/{userId}", consumes = "application/json" , produces = "application/json")
     public ResponseEntity<UserInfoDto> updateUserById(@Min(value = 0, message = "Id must be greater than 0")
                                                           @RequestBody UserInfoDto userInfoDto, Integer userId){
@@ -114,7 +119,7 @@ public class UserInfoController {
     }
 
     @Operation(
-            description = "Delete endpoint for deleting user by id",
+            description = "Delete endpoint for deleting user by id can only be accessed by ROLE_ADMIN as role",
             summary = "Deleting user if required",
             responses = {
                     @ApiResponse(
@@ -128,6 +133,7 @@ public class UserInfoController {
             }
 
     )
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping(value = "/deleteUserById/{userId}", produces = "application/json")
     public ResponseEntity<String> deleteUserById(@Min(value = 0, message = "Id must be greater than 0")
                                                      @PathVariable Integer userId){
