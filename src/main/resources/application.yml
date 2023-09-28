@@ -22,3 +22,13 @@ management:
           - info
           - metrics
           - health
+
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.api.practice: INFO
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+  file:
+    name: 'D:/PracticeApi/Logs/PracticeApi Logs/practiceApi.log'
