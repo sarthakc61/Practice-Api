@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggingAdvice {
 
-    @Pointcut(value = "execution(* com.api.practice.controllers.*.*(..))")
+    @Pointcut(value = "execution(* com.api.practice.controllers.*.*(..))") //logging applied for only controllers package
     public void myPointcut(){
 
     }

@@ -1,5 +1,6 @@
 package com.api.practice.controllers;
 
+import com.api.practice.aoplogging.LogExecutionTime;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,6 +29,7 @@ public class TestController {
     )
     @GetMapping("/test")
     @PreAuthorize("hasAuthority('ROLE_USER')")
+    @LogExecutionTime
     public String testAuth(){
         return "Working Fine!!";
     }
